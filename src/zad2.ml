@@ -22,7 +22,7 @@ struct
 
     let enqueue(elem, q) =
         if q.front = q.rear && q.arr.(q.front) != None then 
-            raise (Full "module QueueCyclicArrayMutable: enqueue")
+            raise (Full "module QueueCyclicArrayMutable full! Couldn't enqueue.")
         else
             q.arr.(q.rear) <- Some elem;
             q.rear <- ((q.rear + 1) mod q.size)
@@ -34,7 +34,7 @@ struct
     let first(q) = 
         match q.arr.(q.front) with
         | Some e -> e
-        | None -> raise (Empty "module QueueCyclicArrayMutable: first")
+        | None -> raise (Empty "module QueueCyclicArrayMutable empty! Couldn't get first.")
 
     let isEmpty(q) = q.arr.(q.front) = None
     let isFull(q) = q.front = q.rear && q.arr.(q.front) != None

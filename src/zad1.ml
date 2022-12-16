@@ -24,7 +24,7 @@ struct
     let first queue =
         match queue with
         | h::t -> h
-        | _ -> raise (Empty "module QueueList: first")
+        | _ -> raise (Empty "module QueueList empty! Couldn't get first.")
     let isEmpty queue =
         match queue with
         | [] -> true
@@ -45,12 +45,12 @@ struct
         match queue with
         | ([], []) -> ([], [])
         | ([], yl) -> (List.tl (List.rev yl), [])
-        | (xl::xlt, yl) -> (xlt, yl)
+        | (xlh::xlt, yl) -> (xlt, yl)
     let first queue =
         match queue with
-        | ([], []) -> raise (Empty "module QueueListPair: first")
+        | ([], []) -> raise (Empty "module QueueListPair empty! Couldn't get first.")
         | ([], yl) -> List.hd (List.rev yl)
-        | (xlh::xl, _) -> xlh
+        | (xlh::xlt, _) -> xlh
     let isEmpty queue =
         match queue with
         | ([], []) -> true
