@@ -56,3 +56,23 @@ struct
         | ([], []) -> true
         | _ -> false
 end;;
+
+
+
+(*testy QueueList*)
+let qu = QueueList.(enqueue(3, empty()));;
+let qu1 = QueueList.(enqueue(4, enqueue(5,qu)));;
+QueueList.first qu;;
+QueueList.first qu1;;
+QueueList.(isEmpty (dequeue qu));;
+QueueList.(first (dequeue qu));;
+QueueList.(first (dequeue qu1));;
+
+(*testy QueueListPair*)
+let qu = QueueListPair.(enqueue(3, empty()));;
+let qu1 = QueueListPair.(enqueue(4, enqueue(5,qu)));;
+QueueListPair.first qu;;
+QueueListPair.first qu1;;
+QueueListPair.(isEmpty (dequeue qu));;
+QueueListPair.(first (dequeue qu));;
+QueueListPair.(first (dequeue qu1));;

@@ -14,29 +14,47 @@ end;;
 
 module QueueCyclicArrayMutable : QUEUE_MUT =
 struct
-    type 'a t = {mutable f : int; mutable r : int; mutable size : int; mutable arr : 'a option array }
+    type 'a t = {mutable front : int; mutable rear : int; mutable size : int; mutable arr : 'a option array }
     exception Empty of string
     exception Full of string
 
-    let empty(s) = {f=0; r=0; size = s; arr = Array.make s None}
+    let empty(s) = {front=0; rear=0; size = s; arr = Array.make s None}
 
     let enqueue(elem, q) =
-        if q.f = q.r && q.arr.(q.f) != None then 
+        if q.front = q.rear && q.arr.(q.front) != None then 
             raise (Full "module QueueCyclicArrayMutable: enqueue")
         else
-            q.arr.(q.r) <- Some elem;
-            q.r <- ((q.r + 1) mod q.size)
+            q.arr.(q.rear) <- Some elem;
+            q.rear <- ((q.rear + 1) mod q.size)
      
     let dequeue(q) =
-        q.arr.(q.f) <- None;
-        q.f <- ((q.f + 1) mod q.size)
+        q.arr.(q.front) <- None;
+        q.front <- ((q.front + 1) mod q.size)
         
     let first(q) = 
-        match q.arr.(q.f) with
+        match q.arr.(q.front) with
         | Some e -> e
         | None -> raise (Empty "module QueueCyclicArrayMutable: first")
 
-    let isEmpty(q) = q.arr.(q.f) = None
-    let isFull(q) = q.f = q.r && q.arr.(q.f) != None
+    let isEmpty(q) = q.arr.(q.front) = None
+    let isFull(q) = q.front = q.rear && q.arr.(q.front) != None
 end;;
 
+
+
+(*testy QueueCyclicArrayMutable*)
+let qu = QueueCyclicArrayMutable.empty(3);;
+QueueCyclicArrayMutable.isEmpty(qu);;
+QueueCyclicArrayMutable.enqueue(3,qu);;
+QueueCyclicArrayMutable.enqueue(4,qu);;
+QueueCyclicArrayMutable.enqueue(5,qu);;
+QueueCyclicArrayMutable.isFull(qu);;
+QueueCyclicArrayMutable.enqueue(2,qu);;
+
+QueueCyclicArrayMutable.dequeue(qu);;
+QueueCyclicArrayMutable.dequeue(qu);;
+QueueCyclicArrayMutable.dequeue(qu);;
+QueueCyclicArrayMutable.isEmpty(qu);;
+QueueCyclicArrayMutable.dequeue(qu);;
+QueueCyclicArrayMutable.isFull(qu);;
+QueueCyclicArrayMutable.isEmpty(qu);;
